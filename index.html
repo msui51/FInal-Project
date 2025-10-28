@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://kit.fontawesome.com/d8408260dd.js" crossorigin="anonymous"></script>
+    
+</head>
+<body>
+    <nav id="nav">
+        <div class="column">
+            <div class="row nav__row">
+                <div class="nav__top">
+                    <div class="nav__logo">
+                        <div class="nav__logo--image-wrapper">
+                            <img class="nav__img" src="assets/icons8-logo-50.png" alt="">
+                        </div>
+                        <p class="nav__logo--title">Movies</p>
+                    </div>
+                    <ul class="nav__links">
+                        <li class="nav__list">
+                            <a  class="nav__list--link nav__list--link-underline" href="">Home</a>
+                        </li>
+                        <li class="nav__list">
+                            <a  class="nav__list--link" href="">
+                                <button class="button nav__button" onclick="onAlert()">CONTACT</button>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="nav__bottom">
+                    <h1 class="nav__title">Browse Our Movies</h1>
+                    <div class="nav__input--wrapper">
+                        <input class="nav__input" onchange="onSearch(event)" type="text" placeholder="Search by Title, Year or Keyword">
+                        <div class="nav__search--wrapper">
+                            <i class="nav__search--logo fa-solid fa-magnifying-glass"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main">
+        <div class="column">
+            <div class="row">
+                <h2 class="search__title">Search results:<span class="search__specific"></span></h2>
+                <div class="movies">
+                    <i class="fa-solid fa-spinner movies__loading--spinner"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+<script src="./app.js"></script>
+</html>
