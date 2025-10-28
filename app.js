@@ -47,7 +47,7 @@ async function onSearch(event){
     const moviesData= await fetch(`https://www.omdbapi.com/?i=tt3896198&apikey=b11a6a7d&s=${value}`)
     movies = await moviesData.json();
 
-    moviesWrapper.classList.remove('movies__loading');
+    // moviesWrapper.classList.remove('movies__loading');
 
     searchStrEl.innerHTML = ' ' + value
     
@@ -56,6 +56,7 @@ async function onSearch(event){
         movieList.length = 6;
         for(let i = 0; i < movieList.length; i++){
             movieListEl.innerHTML = movieList.join('');
+             moviesWrapper.classList.remove('movies__loading');
         }
     }
 

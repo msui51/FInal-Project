@@ -235,7 +235,7 @@ h2{
 }
 
 .fa-spinner{
-    animation: rotate 600ms infinite linear;
+    animation: rotate 400ms infinite linear;
 }
 
 @keyframes rotate{
