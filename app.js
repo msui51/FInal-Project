@@ -1,30 +1,8 @@
 // https://www.omdbapi.com/?i=tt3896198&apikey=b11a6a7d
 
 const movieListEl = document.querySelector('.movies')
+let currentMovies = [];
 
-
-async function getMovies(filter){
-    const moviesData= await fetch('https://www.omdbapi.com/?i=tt3896198&apikey=b11a6a7d&s=all')
-    const moviesResponse = await moviesData.json();
-    if(moviesResponse && Array.isArray(moviesResponse.Search)){
-        let movies = moviesResponse.Search;
-        
-        if(filter === "RECENT_TO_OLDER"){
-        movies.sort((a,b) => a.Year - b.Year)
-        }else if(filter === "FROM_A_TO_Z"){
-            console.log(movies.sort((a,b)=> a.Title > b.Title))
-        }
-    }
-
-    
-   
-        const movieList = moviesResponse.Search.map((movie) => movieHTML(movie))
-        movieList.length = 6;
-        for(let i = 0; i < movieList.length; i++){
-            movieListEl.innerHTML = movieList.join('');
-        }
-
-}
 
 function movieHTML(movie){
     return `<div class="movie">
@@ -49,30 +27,46 @@ async function onSearch(event){
     const searchStrEl = document.querySelector('.search__specific')
 
     const moviesWrapper = document.querySelector('.movies');
-    moviesWrapper.classList += ' movies__loading'
+    moviesWrapper.classList.add('movies__loading');
     
     const value = event.target.value;
     
-    const moviesData= await fetch(`https://www.omdbapi.com/?i=tt3896198&apikey=b11a6a7d&s=${value}`)
-    movies = await moviesData.json();
+    const moviesData= await fetch(`https://www.omdbapi.com/?i=tt3896198&apikey=b11a6a7d&s=${encodeURIComponent(value)}`)
+    const moviesResponse = await moviesData.json();
 
     moviesWrapper.classList.remove('movies__loading');
 
     searchStrEl.innerHTML = ' ' + value
     
-    if(movies.Search){
-        const movieList = movies.Search.map((movie) => movieHTML(movie))
-        movieList.length = 6;
-        for(let i = 0; i < movieList.length; i++){
-            movieListEl.innerHTML = movieList.join('');
-        }
+    currentMovies = Array.isArray(moviesResponse.Search) ? moviesResponse.Search : [];
+
+    const selectedFilter = document.querySelector('#filter').value;
+    if(selectedFilter){
+        currentMovies = sortMovies(currentMovies, selectedFilter)
     }
-
-
+    renderMovies(currentMovies);
 }
 
+function renderMovies(list){
+    const movieList = (list).map((movie) => movieHTML(movie));
+    movieList.length = Math.min(movieList.length, 6);
+    movieListEl.innerHTML = movieList.join('');
+}
+
+function sortMovies(list, filter){
+    if(filter === 'RECENT_TO_OLDER'){
+        return [...list].sort((a,b) => (parseInt(b.Year) || 0) - (parseInt(a.Year) || 0))
+    }else if(filter === 'FROM_A_TO_Z'){
+        return [...list].sort((a,b) => (a.Title || '').localeCompare(b.Title || ''))
+    }
+    return list;
+}
+
+
 function filterMovies(event){
-    getMovies(event.target.value);
+    const filter = event.target.value;
+    currentMovies = sortMovies(currentMovies, filter);
+    renderMovies(currentMovies);
 }
    
 
@@ -86,4 +80,3 @@ function onAlert(){
 
 
 
-getMovies();
