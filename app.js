@@ -3,19 +3,28 @@
 const movieListEl = document.querySelector('.movies')
 
 
-// async function getMovies(){
-//     const moviesData= await fetch('https://www.omdbapi.com/?i=tt3896198&apikey=b11a6a7d&s=romance')
-//     const movies = await moviesData.json();
-   
-//     if(movies.Search){
-//         const movieList = movies.Search.map((movie) => movieHTML(movie))
-//         movieList.length = 6;
-//         for(let i = 0; i < movieList.length; i++){
-//             movieListEl.innerHTML = movieList.join('');
-//         }
-//     }
+async function getMovies(filter){
+    const moviesData= await fetch('https://www.omdbapi.com/?i=tt3896198&apikey=b11a6a7d&s=all')
+    const moviesResponse = await moviesData.json();
+    if(moviesResponse && Array.isArray(moviesResponse.Search)){
+        let movies = moviesResponse.Search;
+        
+        if(filter === "RECENT_TO_OLDER"){
+        movies.sort((a,b) => a.Year - b.Year)
+        }else if(filter === "FROM_A_TO_Z"){
+            console.log(movies.sort((a,b)=> a.Title > b.Title))
+        }
+    }
 
-// }
+    
+   
+        const movieList = moviesResponse.Search.map((movie) => movieHTML(movie))
+        movieList.length = 6;
+        for(let i = 0; i < movieList.length; i++){
+            movieListEl.innerHTML = movieList.join('');
+        }
+
+}
 
 function movieHTML(movie){
     return `<div class="movie">
@@ -47,7 +56,7 @@ async function onSearch(event){
     const moviesData= await fetch(`https://www.omdbapi.com/?i=tt3896198&apikey=b11a6a7d&s=${value}`)
     movies = await moviesData.json();
 
-    // moviesWrapper.classList.remove('movies__loading');
+    moviesWrapper.classList.remove('movies__loading');
 
     searchStrEl.innerHTML = ' ' + value
     
@@ -56,12 +65,18 @@ async function onSearch(event){
         movieList.length = 6;
         for(let i = 0; i < movieList.length; i++){
             movieListEl.innerHTML = movieList.join('');
-             moviesWrapper.classList.remove('movies__loading');
         }
     }
 
 
 }
+
+function filterBooks(event){
+    getMovies(event.target.value);
+}
+   
+
+
 
 function onAlert(){
     alert("This feature is unavailable");
@@ -71,4 +86,4 @@ function onAlert(){
 
 
 
-// getMovies();
+getMovies();

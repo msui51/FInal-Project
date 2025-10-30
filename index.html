@@ -46,7 +46,14 @@
     <main id="main">
         <div class="column">
             <div class="row">
-                <h2 class="search__title">Search results:<span class="search__specific"></span></h2>
+                <div class="movies__top--wrapper">
+                    <h2 class="search__title">Search results:<span class="search__specific"></span></h2>
+                    <select id="filter" onchange="filterBooks(event)">
+                        <option value="" selected>Sort</option>
+                        <option value="RECENT_TO_OLDER">Year, Recent to Older</option>
+                        <option value="FROM_A_TO_Z">Name, From A to Z</option>
+                    </select>
+                </div>
                 <div class="movies">
                     <i class="fa-solid fa-spinner movies__loading--spinner"></i>
                     </div>
