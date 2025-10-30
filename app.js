@@ -71,7 +71,7 @@ async function onSearch(event){
 
 }
 
-function filterBooks(event){
+function filterMovies(event){
     getMovies(event.target.value);
 }
    
